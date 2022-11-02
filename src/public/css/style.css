@@ -1,0 +1,66 @@
+#result {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 5rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+button {
+    background: black;
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 1rem;
+    padding: 10px 20px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    display: block;
+}
+
+button:active {
+    transform: scale(1.1);
+}
+
+table {
+    display: block;
+}
+
+table tr>* {
+    padding: .5rem 1rem;
+}
+
+table tbody tr:nth-of-type(odd) {
+    background: rgb(209, 209, 209);
+}
+
+table tbody tr>td:nth-of-type(2) {
+    text-align: right;
+}
+
+.arrow::after {
+    position: relative;
+}
+
+.arrow.up::after {
+    content: '▲';
+    color: green;
+    animation: goup 1s infinite;
+}
+
+.arrow.down::after {
+    content: '▼';
+    color: red;
+    animation: godown 1s infinite;
+}
+
+@keyframes goup {
+    from {bottom: -5px;}
+    to {bottom: 5px;}
+}
+
+@keyframes godown {
+    from {top: -5px;}
+    to {top: 5px;}
+}
