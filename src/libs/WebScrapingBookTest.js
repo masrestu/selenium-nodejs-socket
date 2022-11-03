@@ -1,58 +1,61 @@
-const { Builder, By } = require('selenium-webdriver');
+const ExampleHelper = require('../helper/ExampleHelper')
 
-const WebScrapingBookTest = async () => {
+const STR_TO_NUM = { one: 1, two: 2, three: 3, four: 4, five: 5 };
+const wordToNumber = word => Number(STR_TO_NUM[word.toLowerCase()]);
+
+const webScrapingBookTest = async () => {
     try {
-        driver = await new Builder().forBrowser('chrome').build()
-        await driver.get('https://books.toscrape.com/')
-        const allRows = await driver.findElements(
-            By.xpath("//ol[@class='row']/li/article")
-        );
-        console.clear()
-        return await getRows(allRows)
-    } catch (error) {
-        throw new Error(error)
-    } finally {
-        await driver.quit()
-    }
-}
+        const url = 'https://books.toscrape.com/';
+        const helper = new ExampleHelper();
+        await helper.open(url);
 
-const STR_TO_NUM = {one: 1,  two: 2, three: 3, four: 4, five: 5}
-const wordToNumber = word => Number(STR_TO_NUM[word.toLowerCase()])
+        const children = await helper.getChildrenByXPath("//ol[@class='row']/li/article");
+        const childDetails = [];
+        for (const child of children) {
+            const bookLink = await helper.getChildrenValueByXPath(child, './/div[1]/a', 'attr', 'href');
 
-const getRows = async (dataRows) => {
-    let dataRowDetails = []
+            let bookRating = await helper.getChildrenValueByXPath(child, './/p', 'attr', 'class');
+            bookRating = wordToNumber(bookRating.split(' ')[1]);
 
-    try {
-        for (const dataRow of dataRows) {
-            const bookLink = await dataRow
-                .findElement(By.xpath(".//div[1]/a"))
-                .getAttribute("href")
+            const bookTitle = await helper.getChildrenValueByXPath(child, ".//h3/a", 'attr', 'title');
+            const bookPrice = await helper.getChildrenValueByXPath(child, ".//div[2]/p[@class='price_color']", 'text');
 
-            let bookRating = await dataRow
-                .findElement(By.xpath(".//p"))
-                .getAttribute("class")
-
-            bookRating = wordToNumber(bookRating.split(' ')[1])
-
-            const bookTitle = await dataRow
-                .findElement(By.xpath(".//h3/a"))
-                .getAttribute("title")
-
-            const bookPrice = await dataRow
-                .findElement(By.xpath(".//div[2]/p[@class='price_color']"))
-                .getText()
-
-            dataRowDetails.push({
+            childDetails.push({
                 bookLink: bookLink ?? '',
                 bookRating: bookRating ?? '',
                 bookTitle: bookTitle ?? '',
                 bookPrice: bookPrice ?? '',
-            })
+            });
         }
+
+        await helper.quit();
+        return childDetails;
     } catch (error) {
-        console.log(error)
+        throw new Error(error);
     }
-    return dataRowDetails;
 }
 
-module.exports = WebScrapingBookTest
+const sleep = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const inputBooks = async (data) => {
+    const url = 'https://masrestu.github.io/simple-book-input/';
+    const helper = new ExampleHelper();
+    
+    try {
+        await helper.open(url);
+        for (const iterator of data) {
+            await helper.inputByName('title', iterator.bookTitle);
+            await helper.inputByName('price', iterator.bookPrice);
+            await helper.inputByName('rating', iterator.bookRating);
+            await sleep(500);
+            await helper.clickById('btnSave');
+        }
+    }
+    finally {
+        await helper.quit();
+    }
+}
+
+module.exports = { webScrapingBookTest, inputBooks }

@@ -1,6 +1,6 @@
 const http = require('http')
 const webScrapingLocalTest = require('../libs/WebScrapingLocalTest')
-const webScrapingBookTest = require('../libs/WebScrapingBookTest')
+const { webScrapingBookTest, inputBooks } = require('../libs/WebScrapingBookTest')
 
 const main = (app) => {
     let server = http.createServer(app)
@@ -12,6 +12,7 @@ const main = (app) => {
         socket.on('get_data', async () => {
             try{
                 const data = await webScrapingLocalTest();
+
                 io.emit('get_data', data);
             } catch (err) {
                 console.log(err)
@@ -22,6 +23,14 @@ const main = (app) => {
             try{
                 const data = await webScrapingBookTest();
                 io.emit('get_book', data);
+            } catch (err) {
+                console.log(err)
+            }
+        });
+
+        socket.on('input_book', async (data) => {
+            try{
+                return await inputBooks(data);
             } catch (err) {
                 console.log(err)
             }

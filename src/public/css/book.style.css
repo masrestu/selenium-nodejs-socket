@@ -1,3 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    color: black;
+    font-size: small;
+}
+
 #result {
     display: flex;
     flex-direction: row;
@@ -8,7 +16,6 @@
 
 button {
     background: black;
-    color: white;
     border: none;
     outline: none;
     border-radius: 1rem;
@@ -16,6 +23,7 @@ button {
     letter-spacing: 2px;
     cursor: pointer;
     display: block;
+    color: white;
 }
 
 button:active {
@@ -54,12 +62,59 @@ table tbody tr>td:nth-of-type(2) {
     animation: godown 1s infinite;
 }
 
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    font-weight: bold;
+}
+
+#loading {
+    animation: rotate linear 3s infinite;
+    font-weight: bold;
+    font-size: large;
+    display: block;
+    margin-top: 5px;
+    cursor: no-drop;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#aside {
+    width: 100px;
+    display: flex;
+    justify-content: center;
+}
+
 @keyframes goup {
-    from {bottom: -5px;}
-    to {bottom: 5px;}
+    from {
+        bottom: -5px;
+    }
+
+    to {
+        bottom: 5px;
+    }
 }
 
 @keyframes godown {
-    from {top: -5px;}
-    to {top: 5px;}
+    from {
+        top: -5px;
+    }
+
+    to {
+        top: 5px;
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(-360deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
