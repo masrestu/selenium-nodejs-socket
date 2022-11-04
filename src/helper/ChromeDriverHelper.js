@@ -1,4 +1,4 @@
-const { By } = require('selenium-webdriver');
+const { By, until } = require('selenium-webdriver');
 
 class ChromeDriverHelper {
     constructor() {
@@ -36,7 +36,7 @@ class ChromeDriverHelper {
     }
 
     async selectByXPath(xpath) {
-        return await this.driver.findElements(By.xpath(xpath));
+        return await this.driver.wait(until.elementsLocated(By.xpath(xpath)), this.timeout);
     }
 
     async selectValueByXPath(childElement, xpath, type, attr = null) {

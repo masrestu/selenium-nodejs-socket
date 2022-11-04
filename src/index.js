@@ -7,8 +7,8 @@ const app = express()
 
 app.use('/', indexRouter)
 app.use(
-    express.static((configDirectory.publicDir))
-  )
+	express.static((configDirectory.publicDir))
+)
 
 
 // routines

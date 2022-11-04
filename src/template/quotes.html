@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotes</title>
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        header {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1rem auto;
+            color: royalblue;
+        }
+
+        header>* {
+            display: block;
+        }
+
+        main {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin: 3rem auto;
+        }
+
+        article {
+            padding: 1rem;
+            width: 100%;
+            border: 1px solid black;
+            border-radius: 5px;
+            box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        article>p {
+            font-size: small;
+        }
+
+        article>.author>span {
+            color: royalblue;
+            font-weight: bold;
+        }
+
+        article>.tags>span {
+            border-radius: 1rem;
+            background-color: royalblue;
+            color: white;
+            padding: 4px 8px;
+            margin-left: .5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Scrapped Quotes</h1>
+        <a href="#" id="runBtn">Run</a>
+    </header>
+    <main>
+        <article>
+            <em><q>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic, similique.</q></em>
+            <p class="author">by <span>The Rock</span></p>
+            <p class="tags">Tags: <span>change</span><span>deep-thoughts</span><span>thinking</span><span>world</span>
+            </p>
+        </article>
+        <article>
+            <em><q>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic, similique.</q></em>
+            <p class="author">by <span>The Rock</span></p>
+            <p class="tags">Tags: <span>change</span><span>deep-thoughts</span><span>thinking</span><span>world</span>
+            </p>
+        </article>
+        <article>
+            <em><q>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic, similique.</q></em>
+            <p class="author">by <span>The Rock</span></p>
+            <p class="tags">Tags: <span>change</span><span>deep-thoughts</span><span>thinking</span><span>world</span>
+            </p>
+        </article>
+        <article>
+            <em><q>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic, similique.</q></em>
+            <p class="author">by <span>The Rock</span></p>
+            <p class="tags">Tags: <span>change</span><span>deep-thoughts</span><span>thinking</span><span>world</span>
+            </p>
+        </article>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const runBtn = document.querySelector('#runBtn');
+        const mainSection = document.querySelector('main');
+
+        const run = async () => {
+            await socket.emit('get_quotes')
+            // console.log(data);
+        }
+
+        runBtn.addEventListener('click', async function (e) {
+            e.preventDefault();
+            await run();
+        })
+
+        socket.on('quote_list', async function (data) {
+            await console.clear();
+            await console.log(data);
+        })
+
+        const renderQuote = (data) => {
+            const 
+        }
+    </script>
+</body>
+
+</html>
