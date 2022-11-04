@@ -46,22 +46,6 @@ table tbody tr>td:nth-of-type(2) {
     text-align: right;
 }
 
-.arrow::after {
-    position: relative;
-}
-
-.arrow.up::after {
-    content: '▲';
-    color: green;
-    animation: goup 1s infinite;
-}
-
-.arrow.down::after {
-    content: '▼';
-    color: red;
-    animation: godown 1s infinite;
-}
-
 a {
     text-decoration: none;
 }
@@ -87,26 +71,6 @@ a:hover {
     width: 100px;
     display: flex;
     justify-content: center;
-}
-
-@keyframes goup {
-    from {
-        bottom: -5px;
-    }
-
-    to {
-        bottom: 5px;
-    }
-}
-
-@keyframes godown {
-    from {
-        top: -5px;
-    }
-
-    to {
-        top: 5px;
-    }
 }
 
 @keyframes rotate {

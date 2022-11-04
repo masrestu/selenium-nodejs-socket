@@ -1,6 +1,6 @@
-const { Builder, By, until, Key, Condition } = require('selenium-webdriver');
+const { By } = require('selenium-webdriver');
 
-class ExampleHelper {
+class ChromeDriverHelper {
     constructor() {
         this.driver = null;
         this.timeout = 300000;
@@ -35,11 +35,11 @@ class ExampleHelper {
         };
     }
 
-    async getChildrenByXPath(xpath) {
+    async selectByXPath(xpath) {
         return await this.driver.findElements(By.xpath(xpath));
     }
 
-    async getChildrenValueByXPath(childElement, xpath, type, attr = null) {
+    async selectValueByXPath(childElement, xpath, type, attr = null) {
         const childInfo = await childElement.findElement(By.xpath(xpath));
         let result = '';
         switch (type) {
@@ -72,6 +72,22 @@ class ExampleHelper {
     async clickById(index) {
         await this.driver.findElement(By.id(index)).click();
     }
+
+    async getInfo() {
+        let itemDetails = [];
+        await this.open(this.url);
+        try {
+            const items = await this.getItems();
+            for (const item of items) {
+                itemDetails = await this.putDetails(itemDetails, item);
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            await this.quit();
+        }
+        return itemDetails;
+    }
 }
 
-module.exports = ExampleHelper
+module.exports = ChromeDriverHelper

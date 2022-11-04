@@ -4,7 +4,7 @@ let prevData = []
 const start = async () => {
     await socket.emit('get_data')
     console.clear()
-    setTimeout(start, 40000)
+    // setTimeout(start, 40000)
 }
 
 socket.on('get_data', function (data) {

@@ -1,6 +1,7 @@
 const http = require('http')
-const webScrapingLocalTest = require('../libs/WebScrapingLocalTest')
-const { webScrapingBookTest, inputBooks } = require('../libs/WebScrapingBookTest')
+const CurrencyHelper = require('../helper/CurrencyHelper')
+const BookHelper = require('../helper/BookHelper')
+const BookInputHelper = require('../helper/BookInputHelper')
 
 const main = (app) => {
     let server = http.createServer(app)
@@ -11,7 +12,8 @@ const main = (app) => {
     io.on('connection', (socket) => {
         socket.on('get_data', async () => {
             try{
-                const data = await webScrapingLocalTest();
+                const helper = new CurrencyHelper();
+                const data = await helper.getInfo();
 
                 io.emit('get_data', data);
             } catch (err) {
@@ -21,7 +23,8 @@ const main = (app) => {
 
         socket.on('get_book', async () => {
             try{
-                const data = await webScrapingBookTest();
+                const helper = new BookHelper();
+                const data = await helper.getInfo();
                 io.emit('get_book', data);
             } catch (err) {
                 console.log(err)
@@ -30,7 +33,8 @@ const main = (app) => {
 
         socket.on('input_book', async (data) => {
             try{
-                return await inputBooks(data);
+                const helper = new BookInputHelper();
+                return await helper.inputBooks(data);
             } catch (err) {
                 console.log(err)
             }
