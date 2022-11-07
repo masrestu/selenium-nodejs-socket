@@ -50,25 +50,25 @@ class ChromeDriverHelper {
             case 'text':
                 result = this.getTextValue(childInfo);
                 break;
-        
+
             default:
                 break;
         }
         return result;
     }
 
-    async getAttributeValue (childInfo, attr) {
+    async getAttributeValue(childInfo, attr) {
         return await childInfo.getAttribute(attr)
     }
 
     async getTextValue(childInfo) {
         return await childInfo.getText()
     }
-    
+
     async inputByName(index, value) {
         await this.driver.findElement(By.name(index)).sendKeys(value);
     }
-    
+
     async clickById(index) {
         await this.driver.findElement(By.id(index)).click();
     }
@@ -87,6 +87,10 @@ class ChromeDriverHelper {
             await this.quit();
         }
         return itemDetails;
+    }
+
+    async selectChildrenByXPath(child, xpath) {
+        return await child.findElements(By.xpath(xpath));
     }
 }
 

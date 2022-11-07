@@ -84,24 +84,6 @@
             <p class="tags">Tags: <span>change</span><span>deep-thoughts</span><span>thinking</span><span>world</span>
             </p>
         </article>
-        <article>
-            <em><q>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic, similique.</q></em>
-            <p class="author">by <span>The Rock</span></p>
-            <p class="tags">Tags: <span>change</span><span>deep-thoughts</span><span>thinking</span><span>world</span>
-            </p>
-        </article>
-        <article>
-            <em><q>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic, similique.</q></em>
-            <p class="author">by <span>The Rock</span></p>
-            <p class="tags">Tags: <span>change</span><span>deep-thoughts</span><span>thinking</span><span>world</span>
-            </p>
-        </article>
-        <article>
-            <em><q>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic, similique.</q></em>
-            <p class="author">by <span>The Rock</span></p>
-            <p class="tags">Tags: <span>change</span><span>deep-thoughts</span><span>thinking</span><span>world</span>
-            </p>
-        </article>
     </main>
 
     <script src="/socket.io/socket.io.js"></script>
@@ -121,12 +103,37 @@
         })
 
         socket.on('quote_list', async function (data) {
-            await console.clear();
-            await console.log(data);
+            await renderQuote(data);
         })
 
-        const renderQuote = (data) => {
-            const 
+        const renderQuote = async (data) => {
+            mainSection.innerHTML = '';
+            for (const iterator of data) {
+                const article = document.createElement('article');
+
+                const quote = document.createElement('em');
+                quote.innerText = iterator.text;
+
+                const author = document.createElement('p');
+                author.classList.add('author');
+                author.innerText = 'by ';
+                const authorName = document.createElement('span');
+                authorName.innerText = iterator.author;
+                author.append(authorName);
+
+                const tags = document.createElement('p');
+                tags.classList.add('tags');
+                tags.innerText = 'Tags: ';
+
+                for (const tag of iterator.tags) {
+                    const tagsName = document.createElement('span');
+                    tagsName.innerText = tag;
+                    tags.append(tagsName);
+                }
+
+                article.append(quote, author, tags);
+                mainSection.append(article);
+            }
         }
     </script>
 </body>
